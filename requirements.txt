@@ -1,0 +1,5 @@
+https://nightly.odoo.com/9.0/nightly/src/odoo_9.0.latest.zip
+--find-links https://wheelhouse.odoo-community.org/oca
+setuptools-odoo
+odoo-autodiscover
+pytest-odoo
