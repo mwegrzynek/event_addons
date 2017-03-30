@@ -10,10 +10,11 @@
     'website': 'https://malloc.com.pl',
     'depends': [
         'event_sale',
-        'website_event_questions'
+        'website_event_questions',
+        'website_event_sale'
     ],
     'data': [
-
+        'views/event_answer.xml'
     ],
     'demo': [
         'data/demo.xml'
