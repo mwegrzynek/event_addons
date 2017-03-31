@@ -17,7 +17,7 @@ class website_event(website_event):
     @http.route(['/event/<model("event.event"):event>/registration/confirm'], type='http', auth="public", methods=['POST'], website=True)
     def registration_confirm(self, event, **post):
         Answer = request.env['event.answer']
-        clear_taxes = False
+        forced_fiscal_position_id = None
 
         cr, uid, context = request.cr, request.uid, request.context
         order = request.website.sale_get_order(force_create=1)
@@ -37,17 +37,26 @@ class website_event(website_event):
                 for answer in Answer.browse(
                     [ai[1] for ai in answer_ids]
                 ):
+                    log.info(
+                        'Product: %s, fiscal position: %s',
+                        answer.product_id.name,
+                        answer.forced_fiscal_position_id.name
+                    )
                     if answer.product_id:
                         order._cart_update(
                             product_id=answer.product_id.id,
                             add_qty=1
                         )
-                    if answer.clear_taxes:
-                        clear_taxes = True
+                    if answer.forced_fiscal_position_id:
+                        forced_fiscal_position_id = answer.forced_fiscal_position_id
 
-        if clear_taxes:
-            for line in order.order_line:
-                line.tax_id = [(5)]
+        if forced_fiscal_position_id:
+            log.info('Forced fiscal position: %s', forced_fiscal_position_id)
+            order.write(dict(
+                forced_fiscal_position_id=forced_fiscal_position_id.id,
+                fiscal_position_id=forced_fiscal_position_id.id
+            ))
+            order.order_line._compute_tax_id()
 
         # free tickets -> order with amount = 0: auto-confirm, no checkout
         if not order.amount_total:

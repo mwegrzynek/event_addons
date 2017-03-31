@@ -14,4 +14,12 @@ class EventAnswer(models.Model):
         string='Associated product'
     )
 
-    clear_taxes = fields.Boolean('Clear taxes')
+    is_individual = fields.Boolean(
+        'Is individual',
+        related='question_id.is_individual'
+    )
+
+    forced_fiscal_position_id = fields.Many2one(
+        'account.fiscal.position',
+        string='Forced fiscal position'
+    )
