@@ -2,10 +2,13 @@
 # See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Event question pricing (ticket configurator)',
+    'name': 'Event question pricing',
     'version': '1.0.0',
     'category': 'Marketing',
-    'description': 'Adds prices to answers to questions to create a ticket configurator',
+    'description': '''
+    Adds products to questions answers; selecting an answer with product will
+    add it to the cart.
+    ''',
     'author': 'Michał Węgrzynek',
     'website': 'https://malloc.com.pl',
     'depends': [
