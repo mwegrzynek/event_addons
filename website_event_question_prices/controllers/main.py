@@ -34,7 +34,7 @@ class website_event(website_event):
             # Question prices extension
             answer_ids = registration.get('answer_ids')
             if answer_ids:
-                for answer in Answer.browse(
+                for answer in Answer.sudo().browse(
                     [ai[1] for ai in answer_ids]
                 ):
                     log.info(
